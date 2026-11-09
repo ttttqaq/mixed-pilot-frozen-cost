@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile 推理对比</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#f7f8fa; --surface:#fff; --fg:#172333; --muted:#5e6d7e; --line:#dfe5ec; --grid:#edf0f4; --accent:#335eea; --soft:#eaf0ff; --notice:#fff5de; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#111721; --surface:#192230; --fg:#edf2fb; --muted:#adbace; --line:#374358; --grid:#293448; --accent:#91adff; --soft:#273756; --notice:#342c1e; } }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1240px; margin:auto; padding:32px 28px 48px; }
+    h1 { font-size:28px; font-weight:650; letter-spacing:-.7px; margin:0 0 6px; }
+    h2 { font-size:17px; font-weight:600; margin:0; }
+    p { margin:6px 0; }
+    a { color:var(--accent); }
+    button,select { font:inherit; color:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,a:focus-visible,select:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+    .intro { color:var(--muted); }
+    .toolbar { display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin:20px 0 12px; }
+    .toolbar select { padding:4px 8px; background:var(--surface); border:1px solid var(--line); border-radius:6px; }
+    .exports { margin-left:auto; display:flex; gap:14px; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 18px; margin:14px 0 20px; }
+    .legend button { display:flex; align-items:center; gap:7px; background:none; border:0; padding:3px 0; text-align:left; }
+    .legend button[aria-pressed="false"] { opacity:.4; text-decoration:line-through; }
+    .swatch { width:10px; height:10px; border-radius:50%; flex:none; }
+    .chart { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 18px 8px; min-width:0; }
+    .chart-head { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .chart-head button { color:var(--muted); background:none; border:0; font-size:12px; padding:4px; }
+    .subplots { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px; }
+    svg { display:block; width:100%; overflow:visible; }
+    svg text { font-size:12px; font-family:inherit; fill:var(--muted); }
+    svg .axis-title { font-size:13px; fill:var(--fg); }
+    svg .point-index { font-weight:600; fill:var(--fg); pointer-events:none; }
+    svg .hit { cursor:pointer; }
+    svg .point:focus { outline:none; }
+    svg .point:focus .mark { stroke:var(--fg); stroke-width:3px; }
+    .empty { text-align:center; fill:var(--muted); }
+    .notice { background:var(--notice); padding:10px 14px; border-radius:8px; margin-bottom:14px; }
+    .notice:empty { display:none; }
+    .detail { padding:16px 18px; margin:20px 0; border-left:3px solid var(--accent); background:var(--surface); overflow-wrap:anywhere; }
+    .detail h2 { margin-bottom:4px; }
+    .detail .meta { color:var(--muted); font-size:12px; }
+    .detail .numbers { display:flex; gap:8px 24px; flex-wrap:wrap; margin:8px 0; font-variant-numeric:tabular-nums; }
+    .table-wrap { overflow:auto; margin-top:20px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+    table { border-collapse:collapse; width:100%; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    th,td { text-align:right; padding:12px 14px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-size:12px; font-weight:500; }
+    th:first-child,td:first-child { text-align:left; }
+    tbody tr:last-child td { border-bottom:0; }
+    tbody tr.selected { background:var(--soft); }
+    tbody tr.hidden { opacity:.45; }
+    td button { border:0; background:none; padding:0; text-align:left; }
+    .status { font-size:12px; color:var(--muted); }
+    details { margin-top:24px; color:var(--muted); }
+    summary { cursor:pointer; color:var(--fg); }
+    dl { display:grid; grid-template-columns:80px 1fr; gap:8px 12px; }
+    dt { color:var(--fg); } dd { margin:0; }
+    .tooltip { position:fixed; z-index:10; max-width:340px; pointer-events:none; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 14px; box-shadow:0 8px 32px #0002; font-size:12px; }
+    .tooltip strong { color:var(--fg); }
+    [hidden] { display:none !important; }
+    @media (max-width:700px) { main { padding:20px 12px; } h1 { font-size:23px; } .subplots { grid-template-columns:1fr; } .chart { padding:14px 8px 6px; } .exports { margin-left:0; } .chart-head { padding:0 8px; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1 id="title"></h1>
+  <p class="intro">每个点对应一个推理日志目录。纵轴统一为 accuracy（pass_rate）；横轴为平均每个 task 的资源消耗。</p>
+  <div class="toolbar">
+    <label>Cost 币种 <select id="currency" aria-label="Cost 币种"></select></label>
+    <span class="intro">点击图例显隐 · 点击散点查看详情</span>
+    <div class="exports"><a href="metrics.csv" download>下载 CSV</a><a href="metrics.json" download>下载 JSON</a></div>
+  </div>
+  <div id="warnings" class="notice" role="status"></div>
+  <nav id="legend" class="legend" aria-label="推理运行图例"></nav>
+  <section class="chart" aria-labelledby="cost-heading">
+    <div class="chart-head"><h2 id="cost-heading">Accuracy × Cost</h2><button type="button" data-export="cost">导出 SVG</button></div>
+    <svg id="cost" role="img" aria-label="Accuracy 与平均每 task cost 散点图"></svg>
+  </section>
+  <div class="subplots">
+    <section class="chart" aria-labelledby="tokens-heading">
+      <div class="chart-head"><h2 id="tokens-heading">Accuracy × Tokens</h2><button type="button" data-export="tokens">导出 SVG</button></div>
+      <svg id="tokens" role="img" aria-label="Accuracy 与平均每 task tokens 散点图"></svg>
+    </section>
+    <section class="chart" aria-labelledby="steps-heading">
+      <div class="chart-head"><h2 id="steps-heading">Accuracy × Steps</h2><button type="button" data-export="steps">导出 SVG</button></div>
+      <svg id="steps" role="img" aria-label="Accuracy 与平均每 task steps 散点图"></svg>
+    </section>
+  </div>
+  <section id="detail" class="detail" aria-live="polite"><p class="intro">选择散点或表格中的运行，查看 profile、消耗与评分覆盖情况。</p></section>
+  <div class="table-wrap">
+    <table aria-label="各推理目录汇总"><thead><tr>
+      <th>运行 / Profile</th><th>Tasks</th><th>Passed / Scored</th><th>Accuracy</th><th id="cost-column"></th><th>Tokens / task</th><th>Steps / task</th><th>数据状态</th>
+    </tr></thead><tbody id="rows"></tbody></table>
+  </div>
+  <details><summary>统计口径</summary><dl id="definitions"></dl></details>
+</main>
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<script id="report-data" type="application/json">__REPORT_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const report = JSON.parse(document.getElementById('report-data').textContent);
+  const runs = report.runs;
+  const hidden = new Set();
+  const palette = ['#5277ec','#bc5d23','#278379','#a7509b','#936b13','#647386','#cd4e67','#6d5ccc'];
+  const ns = 'http://www.w3.org/2000/svg';
+  let selected = null;
+  const $ = id => document.getElementById(id);
+  const format = (n, digits=2) => n == null ? 'N/A' : n.toLocaleString('en-US', {maximumFractionDigits:digits});
+  const pct = n => n == null ? 'N/A' : `${format(n*100)}%`;
+  const color = i => palette[i % palette.length];
+  const currencySelect = $('currency');
+  const currencies = [...new Set(runs.flatMap(r => Object.keys(r.avg_cost_by_currency)))].sort();
+  for (const code of currencies) { const option = document.createElement('option'); option.value=code; option.textContent=code; currencySelect.append(option); }
+  if (currencies.includes(runs[0]?.currency)) currencySelect.value=runs[0].currency;
+  const currency = () => currencySelect.value;
+  const value = (r, metric) => metric==='cost' ? r.avg_cost_by_currency[currency()] : metric==='tokens' ? r.avg_tokens : r.avg_steps;
+  const incomplete = (r,metric) => metric==='cost' ? !r.cost_complete : metric==='tokens' ? !r.tokens_complete : false;
+  function element(tag, text, className) { const el=document.createElement(tag); if(text!=null) el.textContent=text; if(className) el.className=className; return el; }
+  function node(parent, tag, attrs={}, text) { const el=document.createElementNS(ns,tag); for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v); if(text!=null) el.textContent=text; parent.append(el); return el; }
+  $('title').textContent=report.title;
+  document.title=report.title;
+  const names={accuracy:'Accuracy',cost:'Cost',tokens:'Tokens',steps:'Steps',average:'均值'};
+  for(const [k,v] of Object.entries(report.definitions)) { $('definitions').append(element('dt',names[k] || k),element('dd',v)); }
+  runs.forEach((r,i) => {
+    const button=element('button'); button.type='button'; button.setAttribute('aria-pressed','true');
+    const swatch=element('span',null,'swatch'); swatch.style.background=color(i);
+    button.append(swatch,element('span',`${i+1} · ${r.label}`));
+    button.title=r.profiles.join(' / ');
+    button.addEventListener('click',()=>{ hidden.has(i) ? hidden.delete(i) : hidden.add(i); button.setAttribute('aria-pressed',String(!hidden.has(i))); $('tooltip').hidden=true; render(); });
+    $('legend').append(button);
+  });
+  function noteLines(r) {
+    const lines=[`任务数 ${r.task_count} · Passed / Scored ${r.passed ?? 'N/A'} / ${r.scored_traces ?? 'N/A'}`];
+    if(r.started_jobs!=null) lines.push(`Jobs ${r.started_jobs} / ${r.planned_jobs ?? '不限轮数'}`);
+    return lines;
+  }
+  function showDetail(i) {
+    selected=i; const r=runs[i]; const panel=$('detail'); panel.replaceChildren();
+    panel.append(element('h2',`${i+1} · ${r.label}`),element('p',`${r.mode} · ${r.profiles.join(' / ') || '尚无 profile 调用'}`),element('p',r.directory,'meta'));
+    const values=element('div',null,'numbers');
+    values.append(element('span',`Accuracy ${pct(r.pass_rate)}`),element('span',`Cost / task ${!r.cost_complete?'≥ ':''}${format(value(r,'cost'),6)} ${currency()}`),element('span',`Tokens / task ${!r.tokens_complete?'≥ ':''}${format(r.avg_tokens)}`),element('span',`Steps / task ${format(r.avg_steps)}`));
+    panel.append(values,element('p',noteLines(r).join(' · '),'meta'),element('p',`Input tokens ${format(r.input_tokens,0)} · Output tokens ${format(r.output_tokens,0)} · 逻辑 API steps ${format(r.step_count,0)}`,'meta'));
+    for(const note of r.notes) panel.append(element('p',note,'status'));
+  }
+  function select(i) { showDetail(i); render(); }
+  function tooltipAt(i,event,metric) {
+    const r=runs[i]; const tip=$('tooltip'); tip.replaceChildren(element('strong',`${i+1} · ${r.label}`),element('div',`Accuracy ${pct(r.pass_rate)}`),element('div',`Cost / task ${format(value(r,'cost'),6)} ${currency()}`),element('div',`Tokens / task ${format(r.avg_tokens)} · Steps / task ${format(r.avg_steps)}`),element('div',noteLines(r).join(' · ')));
+    if(incomplete(r,metric)) tip.append(element('div','该横轴数据不完整，显示已知消耗。'));
+    const neighbours=runs.filter((other,j)=>j!==i && !hidden.has(j) && other.pass_rate===r.pass_rate && value(other,metric)===value(r,metric));
+    if(neighbours.length) tip.append(element('div',`同坐标：${neighbours.map(r=>r.label).join(' / ')}（可在表格中选择）`));
+    tip.hidden=false;
+    const box=event.currentTarget.getBoundingClientRect();
+    const x=event.clientX || box.right, y=event.clientY || box.top;
+    tip.style.left=`${Math.max(8,Math.min(x+14,window.innerWidth-tip.offsetWidth-8))}px`;
+    tip.style.top=`${Math.max(8,Math.min(y+14,window.innerHeight-tip.offsetHeight-8))}px`;
+  }
+  function tickLabel(n,metric) { if(metric==='cost') return format(n,6); if(n>=1e6) return `${format(n/1e6,1)}M`; if(n>=1e3) return `${format(n/1e3,1)}k`; return format(n,2); }
+  function draw(metric) {
+    const svg=$(metric), width=Math.max(260,svg.getBoundingClientRect().width);
+    const height=metric==='cost' ? (width<500?330:390) : 310;
+    svg.setAttribute('viewBox',`0 0 ${width} ${height}`); svg.setAttribute('height',height); svg.replaceChildren();
+    node(svg,'title',{},`Accuracy × ${metric}`);
+    const left=72, right=24, top=28, bottom=64, w=width-left-right, h=height-top-bottom;
+    const candidates=runs.map((r,i)=>({r,i,x:value(r,metric)})).filter(d=>d.r.pass_rate!=null && Number.isFinite(d.x));
+    // Keep axes stable when toggling a series. Resource axes start at zero.
+    const maximum=Math.max(0,...candidates.map(d=>d.x));
+    const rawMax=maximum>0 ? maximum*1.16 : 1;
+    const count=width<450?3:5;
+    const magnitude=Math.pow(10,Math.floor(Math.log10(rawMax/count)));
+    const norm=rawMax/count/magnitude;
+    const step=([1,2,2.5,5,10].find(v=>v>=norm) || 10)*magnitude;
+    const max=Math.ceil(rawMax/step)*step;
+    const x=v=>left+10+(w-20)*v/max, y=v=>top+10+(h-20)*(1-v);
+    const styles=getComputedStyle(document.documentElement);
+    node(svg,'rect',{x:left,y:top,width:w,height:h,fill:'none',stroke:styles.getPropertyValue('--line').trim()});
+    for(let p=0;p<=100;p+=20) {
+      node(svg,'line',{x1:left,y1:y(p/100),x2:left+w,y2:y(p/100),stroke:styles.getPropertyValue('--grid').trim()});
+      node(svg,'text',{x:left-12,y:y(p/100)+4,'text-anchor':'end'},`${p}%`);
+    }
+    for(let j=0;j<=Math.round(max/step);j++) {
+      const v=j*step;
+      node(svg,'line',{x1:x(v),y1:top,x2:x(v),y2:top+h,stroke:styles.getPropertyValue('--grid').trim()});
+      node(svg,'text',{x:x(v),y:top+h+23,'text-anchor':j===0?'start':j===Math.round(max/step)?'end':'middle'},tickLabel(v,metric));
+    }
+    node(svg,'text',{x:16,y:top+h/2,transform:`rotate(-90,16,${top+h/2})`,'text-anchor':'middle',class:'axis-title','data-axis':'y'},'Accuracy (pass_rate)');
+    node(svg,'text',{x:left+w/2,y:height-14,'text-anchor':'middle',class:'axis-title','data-axis':'x'},metric==='cost'?`平均 Cost / task (${currency()})`:metric==='tokens'?'平均 Tokens / task (input + output)':'平均 Steps / task (API calls)');
+    const visible=candidates.filter(d=>!hidden.has(d.i));
+    if(!visible.length) node(svg,'text',{x:left+w/2,y:top+h/2,'text-anchor':'middle',class:'empty'},'没有可展示的已评分运行');
+    for(const {r,i,x:v} of visible) {
+      const cx=x(v), cy=y(r.pass_rate);
+      const g=node(svg,'g',{class:'point',tabindex:0,role:'button','aria-label':`${r.label}，accuracy ${pct(r.pass_rate)}，${metric} / task ${format(v,6)}`});
+      node(g,'title',{},`${r.label}: accuracy ${pct(r.pass_rate)}, ${metric}/task ${format(v,6)}`);
+      node(g,'circle',{cx,cy,r:selected===i?10:7,fill:incomplete(r,metric)?styles.getPropertyValue('--surface').trim():color(i),stroke:color(i),'stroke-width':selected===i?3:2,class:'mark'});
+      node(g,'text',{x:cx+(cx>left+w-28?-13:13),y:cy+(cy<top+24?17:-11),'text-anchor':cx>left+w-28?'end':'start',class:'point-index'},i+1);
+      node(g,'circle',{cx,cy,r:22,fill:'transparent',class:'hit'});
+      g.addEventListener('pointerenter',e=>tooltipAt(i,e,metric));
+      g.addEventListener('pointermove',e=>tooltipAt(i,e,metric));
+      g.addEventListener('pointerleave',()=>{$('tooltip').hidden=true;});
+      g.addEventListener('focus',e=>tooltipAt(i,e,metric));
+      g.addEventListener('blur',()=>{$('tooltip').hidden=true;});
+      g.addEventListener('click',()=>{select(i); $('tooltip').hidden=true;});
+      g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);}if(e.key==='Escape')$('tooltip').hidden=true;});
+    }
+  }
+  function renderTable() {
+    $('cost-column').textContent=`Cost / task (${currency()})`;
+    $('rows').replaceChildren();
+    runs.forEach((r,i)=>{
+      const tr=element('tr'); if(selected===i)tr.classList.add('selected'); if(hidden.has(i))tr.classList.add('hidden');
+      const td=element('td'); const button=element('button',`${i+1} · ${r.label}`);button.type='button';button.addEventListener('click',()=>select(i));td.append(button);tr.append(td);
+      const cost=value(r,'cost');
+      for(const text of [r.task_count,`${r.passed ?? 'N/A'} / ${r.scored_traces ?? 'N/A'}`,pct(r.pass_rate),`${cost!=null&&!r.cost_complete?'≥ ':''}${format(cost,6)}`,`${!r.tokens_complete?'≥ ':''}${format(r.avg_tokens)}`,format(r.avg_steps)])tr.append(element('td',text));
+      const status=element('td',r.notes.length?'需注意':'完整','status');status.title=r.notes.join('\n');tr.append(status);$('rows').append(tr);
+    });
+  }
+  function render() {
+    const warnings=[...report.warnings];
+    const missing=runs.filter(r=>r.avg_cost_by_currency[currency()]==null).length;
+    if(missing)warnings.push(`${missing} 个运行没有 ${currency()} 费用记录，未绘制在 cost 图中。`);
+    if(runs.some(r=>r.notes.length))warnings.push('空心散点 / ≥ 表示资源数据不完整；未完成运行与评分覆盖情况见表格及详情。');
+    $('warnings').textContent=warnings.join(' ');
+    ['cost','tokens','steps'].forEach(draw);renderTable();if(selected!=null)showDetail(selected);
+  }
+  currencySelect.addEventListener('change',()=>{$('tooltip').hidden=true;render();});
+  for(const button of document.querySelectorAll('[data-export]'))button.addEventListener('click',()=>{
+    const original=$(button.dataset.export), clone=original.cloneNode(true);
+    const originals=[original,...original.querySelectorAll('*')], copies=[clone,...clone.querySelectorAll('*')];
+    originals.forEach((el,i)=>{const css=getComputedStyle(el);for(const key of ['fill','stroke','stroke-width','font-size','font-family','font-weight'])copies[i].style.setProperty(key,css.getPropertyValue(key));});
+    clone.setAttribute('xmlns',ns);clone.setAttribute('width',original.viewBox.baseVal.width);
+    clone.style.background=getComputedStyle(document.documentElement).getPropertyValue('--surface').trim();
+    const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml;charset=utf-8'}));
+    const a=element('a');a.href=url;a.download=`accuracy-${button.dataset.export}${button.dataset.export==='cost'?'-'+currency():''}.svg`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  let pending=false;
+  const observer=new ResizeObserver(()=>{if(!pending){pending=true;requestAnimationFrame(()=>{pending=false;['cost','tokens','steps'].forEach(draw);});}});
+  ['cost','tokens','steps'].forEach(id=>observer.observe($(id).parentElement));
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',render);
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "mixed-pilot task manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "title",
+    "category",
+    "source",
+    "prompt",
+    "workspace",
+    "agent",
+    "evaluation",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "dataset",
+        "upstream_id",
+        "split",
+        "revision",
+        "url",
+        "license"
+      ]
+    },
+    "prompt": {
+      "const": "prompt.md"
+    },
+    "workspace": {
+      "type": "object",
+      "required": [
+        "path",
+        "mode",
+        "agent_visible",
+        "original_payload_preserved",
+        "limitations"
+      ]
+    },
+    "agent": {
+      "type": "object",
+      "required": [
+        "tools",
+        "recommended_max_turns",
+        "output_contract"
+      ]
+    },
+    "evaluation": {
+      "type": "object",
+      "required": [
+        "rubrics",
+        "reference_dir",
+        "reference_agent_visible",
+        "verification_level"
+      ]
+    },
+    "privacy": {
+      "type": "object",
+      "required": [
+        "variant",
+        "contains_injected_private_data",
+        "injected_data"
+      ]
+    }
+  }
+}

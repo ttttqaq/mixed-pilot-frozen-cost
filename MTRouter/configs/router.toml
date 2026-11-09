@@ -1,0 +1,12 @@
+[router]
+engine = "mtrouter"
+service_url = "http://127.0.0.1:8765"
+service_timeout = 120
+
+# Order must match the training checkpoint's model_names.
+[tiers.qwen]
+profile = "qwen-flash-2025-07-28"
+[tiers.deepseek]
+profile = "deepseek-flash"
+[tiers.glm]
+profile = "glm-5"

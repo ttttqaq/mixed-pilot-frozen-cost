@@ -1,0 +1,24 @@
+Metadata-Version: 2.4
+Name: mixed-pilot-harness
+Version: 0.1.0
+Summary: A small, provider-neutral turn harness for the mixed-pilot benchmark.
+Requires-Python: >=3.9
+License-File: NOTICE.md
+Requires-Dist: tomli>=1.1.0; python_version < "3.11"
+Provides-Extra: collection
+Requires-Dist: PyYAML>=6.0; extra == "collection"
+Requires-Dist: Jinja2>=3.1; extra == "collection"
+Provides-Extra: scienceworld
+Requires-Dist: PyYAML>=6.0; extra == "scienceworld"
+Requires-Dist: Jinja2>=3.1; extra == "scienceworld"
+Requires-Dist: scienceworld==1.2.3; extra == "scienceworld"
+Provides-Extra: hle
+Requires-Dist: datasets<5,>=2.18; extra == "hle"
+Provides-Extra: router
+Requires-Dist: joblib>=1.3; extra == "router"
+Requires-Dist: lightgbm>=4.0; extra == "router"
+Requires-Dist: numpy>=1.24; extra == "router"
+Requires-Dist: onnxruntime>=1.16; extra == "router"
+Requires-Dist: PyYAML>=6.0; extra == "router"
+Requires-Dist: scikit-learn>=1.3; extra == "router"
+Dynamic: license-file

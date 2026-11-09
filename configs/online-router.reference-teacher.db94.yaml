@@ -1,0 +1,110 @@
+# Reference-conditioned fixed Teacher. Fill api_keys below.
+# Teacher rates: vendor USD/M tokens x channel 1.5 x assumed 7.3 CNY/USD.
+# Budget estimates, not subscription invoices; edit to match your billing basis.
+project_root: "/DB/data/yujietang/Agent/code/mixed-pilot"
+harness_config: "harness.json"
+pricing: "configs/inference.prices.json"
+api_keys:
+  dashscope: ""
+  zhipu: ""
+  newcli: ""
+dataset:
+  root: "data/VirtualWorld-subset"
+  train_split: "train"
+  validation_split: "test"
+model_pool: ["qwen-flash-2025-07-28", "glm-5.3"]
+strong_model: "glm-5.3"
+seed: 42
+output_dir: "outputs/reference-router-run01"
+resilience:
+  enabled: true
+  stop_after_retries: true
+  max_retries: 3
+  retry_delay: 5.0
+  max_retry_delay: 60.0
+  request_timeout: 300.0
+  teacher_timeout: 600.0
+  rate_limit_wait: 30.0
+  rate_limit_retries: 5
+  qwen_min_interval: 2.0
+budget:
+  total: 30.0
+  cost_reference: 0.1
+  lambda_: 0.05
+encoder:
+  backend: "hf"
+  model_name: "/DB/data/yujietang/huggingface_models/Qwen3-Embedding-0.6B"
+  max_tokens: 8192
+  device: "auto"
+  hash_dim: 32
+model:
+  hidden_dims: [256, 256]
+  dropout: 0.1
+  ensemble_size: 3
+  model_metadata: "MTRouter/configs/models.ksr-db94.yaml"
+rollout:
+  task_budget: 1.0
+  step_limit: 50
+  replay_attempts: 2
+  retry_wait: 0.0
+  trace_delay: 0.0
+  reward: "success"
+cold_start:
+  enabled: true
+  tasks: 4
+  strategy: "uniform"
+  queries: 4
+online:
+  iterations: 3
+  tasks_per_iteration: 4
+  states_per_iteration: 4
+  exploration_epsilon: 0.1
+selection:
+  enabled: true
+  random_fraction: 0.25
+  impact_weight: 1.0
+  uncertainty_weight: 1.0
+  cost_weight: 1.0
+short_rollout:
+  enabled: true
+  horizon: 3
+  adaptive: true
+  max_horizon: 9
+  extension: 3
+teacher:
+  enabled: true
+  llm:
+    profile: "gpt-6.1-terra"
+    model: "gpt-6.1-terra"
+    base_url: "https://code1.newcli.com/v1"
+    max_calls_per_iteration: 24
+    max_tokens: 8192
+    max_history_chars: 16000
+    reasoning_effort: "low"
+    json_mode: false
+    min_interval: 15.0
+    input_per_million: 10.95
+    output_per_million: 54.75
+    cached_input_per_million: 0.5475
+audit:
+  enabled: true
+  uncertainty_threshold: 0.1
+  random_fraction: 0.2
+  max_pairs_per_iteration: 2
+optimization:
+  epochs: 10
+  batch_size: 64
+  learning_rate: 0.001
+  weight_decay: 0.01
+  grad_clip: 1.0
+  anchor_weight: 0.1
+  pairwise_weight: 0.2
+  cost_loss_weight: 1.0
+  replay_limit: 50000
+  pseudo_weight: 0.25
+evaluation:
+  enabled: true
+  every_iterations: 3
+  max_tasks: null
+checkpoint:
+  every_iterations: 1

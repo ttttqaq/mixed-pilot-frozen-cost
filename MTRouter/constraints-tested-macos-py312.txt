@@ -1,0 +1,7 @@
+# Versions used in local offline verification on Python 3.12 / macOS arm64.
+# Not a universal CUDA/Linux lockfile. These packages were already installed.
+torch==2.13.0
+transformers==5.15.0
+numpy==2.5.1
+PyYAML==6.0.3
+tqdm==4.70.0

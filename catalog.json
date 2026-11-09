@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "name": "mixed-pilot",
+  "description": "Seven small, source-pinned agent tasks spanning coding, research, office, and browser interaction.",
+  "task_count": 7,
+  "tasks": [
+    {
+      "id": "browsecomp-0001",
+      "dataset": "BrowseComp",
+      "category": "chat_web_research",
+      "workspace_mode": "prompt_only",
+      "verification_level": "official_llm_judge_or_manual_exact_match"
+    },
+    {
+      "id": "gaia-paper-enrollment",
+      "dataset": "GAIA",
+      "category": "chat_web_research",
+      "workspace_mode": "prompt_only",
+      "verification_level": "quasi_exact_match"
+    },
+    {
+      "id": "jobbench-bookkeeping-task1",
+      "dataset": "JobBench",
+      "category": "office_spreadsheet_document",
+      "workspace_mode": "materialized_files",
+      "verification_level": "official_weighted_rubric"
+    },
+    {
+      "id": "mind2web-yahoo-nfl-results",
+      "dataset": "Mind2Web",
+      "category": "browser_offline_html",
+      "workspace_mode": "materialized_html_snapshots",
+      "verification_level": "official_action_target_match"
+    },
+    {
+      "id": "osworld-impress-autosave",
+      "dataset": "OSWorld-Verified",
+      "category": "office_gui",
+      "workspace_mode": "environment_descriptor",
+      "verification_level": "native_state_inspection"
+    },
+    {
+      "id": "swebench-flask-5014",
+      "dataset": "SWE-bench Verified",
+      "category": "coding",
+      "workspace_mode": "materialized_git_repository",
+      "verification_level": "official_hidden_test_patch"
+    },
+    {
+      "id": "webarena-verified-0000",
+      "dataset": "WebArena-Verified",
+      "category": "browser_live_site",
+      "workspace_mode": "environment_descriptor",
+      "verification_level": "official_agent_response_evaluator"
+    }
+  ]
+}

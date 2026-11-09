@@ -1,0 +1,22 @@
+# Prices: configs/collection.prices.json, frozen CNY snapshot; no live pricing lookup.
+# Context/output/cutoff values below are equal placeholders, NOT model specifications.
+# Replace with verified metadata for production experiments. Cutoff is neutral across models.
+# Use base-band uncached price as static feature; trace costs retain actual recorded estimates.
+qwen-flash-2025-07-28:
+  max_input_tokens: 128000
+  max_output_tokens: 1024
+  knowledge_cutoff: "2024-01-01"
+  input_cost_per_million: 0.15
+  output_cost_per_million: 1.5
+deepseek-flash:
+  max_input_tokens: 128000
+  max_output_tokens: 1024
+  knowledge_cutoff: "2024-01-01"
+  input_cost_per_million: 2.0
+  output_cost_per_million: 8.0
+glm-5:
+  max_input_tokens: 128000
+  max_output_tokens: 1024
+  knowledge_cutoff: "2024-01-01"
+  input_cost_per_million: 4.0
+  output_cost_per_million: 18.0

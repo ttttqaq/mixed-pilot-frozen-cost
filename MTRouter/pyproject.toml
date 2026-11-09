@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mixed-pilot-mtrouter"
+version = "0.1.0"
+description = "Isolated MTRouter training and scoring core for mixed-pilot"
+requires-python = ">=3.10"
+readme = "README.md"
+license = {file = "LICENSE.upstream.md"}
+dependencies = [
+  "numpy>=1.24,<3", "torch>=2.2,<3", "transformers>=4.51,<6",
+  "PyYAML>=6,<7", "tqdm>=4.65,<5",
+]
+
+[project.optional-dependencies]
+vllm-client = ["openai>=1.30,<3"]
+tensorboard = ["tensorboard>=2.12,<3"]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+mtr-online-train = "mixed_pilot_mtrouter.online.cli:main"
+mtr-core-train = "mixed_pilot_mtrouter.cli.train_q_function:main"
+mtr-core-precompute = "mixed_pilot_mtrouter.cli.precompute_embeddings:main"
+mtr-core-serve = "mixed_pilot_mtrouter.service:main"
+mtr-core-audit = "mixed_pilot_mtrouter.audit:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mixed_pilot_mtrouter = ["config/**/*.yaml"]

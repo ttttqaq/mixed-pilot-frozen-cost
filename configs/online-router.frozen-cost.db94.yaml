@@ -1,0 +1,49 @@
+# Joint Y/C during KSR cold start; immutable cold C and Y-only updates online.
+project_root: /DB/data/yujietang/Agent/code/mixed-pilot
+output_dir: outputs/ksr-frozen-cost-router-run01
+api_keys:
+  dashscope: ""
+  zhipu: ""
+  newcli: ""
+dataset:
+  root: data/VirtualWorld-subset
+  train_split: train
+  validation_split: test
+initialization:
+  cold_checkpoint: null
+cold_start:
+  enabled: true
+  strategy: ksr-brunch-1
+  trajectory_steps: 500
+  finish_current_task: true
+  checkpoint_steps: 100
+  ksr_config: KSR_config.json
+  max_depth: 3
+  max_nodes: 14
+  reuse_from: null
+online:
+  iterations: 5
+  tasks_per_iteration: 4
+  states_per_iteration: 4
+  exploration_epsilon: 0.1
+rollout:
+  task_budget: 1.0
+  step_limit: 50
+  reward: success
+decision:
+  beta: 0.5
+budget:
+  total: 80.0
+  cost_reference: 0.1
+optimization:
+  epochs: 10
+  batch_size: 64
+  learning_rate: 0.001
+  pairwise_weight: 0.0
+  anchor_weight: 0.0
+  cost_loss_weight: 1.0  # Cold-start fit only; online loss is Y + regularization.
+evaluation:
+  enabled: true
+  after_cold_start: true
+  every_iterations: 3
+  max_tasks: null

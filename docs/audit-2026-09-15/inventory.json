@@ -1,0 +1,145 @@
+{
+  "audit_date": "2026-09-15",
+  "repository_commit": "05b510be124c5dfbb73ef89725cef8e902e40ac5",
+  "data_root": "/Users/liangjianfeng/Data/mixed-pilot-data",
+  "inventory": {
+    "matching_files": 301,
+    "missing_files": [
+      "tasks/osworld-impress-autosave/manifest.json",
+      "tasks/osworld-impress-autosave/prompt.md",
+      "tasks/osworld-impress-autosave/reference/native_task.json",
+      "tasks/osworld-impress-autosave/rubrics.json",
+      "tasks/osworld-impress-autosave/workspace/environment.json",
+      "tasks/osworld-impress-autosave/workspace/native_task.agent.json"
+    ],
+    "mismatching_files": [
+      ".gitignore",
+      "README.md",
+      "docs/HARNESS.md",
+      "harness.json",
+      "setup.cfg",
+      "src/mixed_pilot_harness/cli.py",
+      "src/mixed_pilot_harness/code_task.py",
+      "src/mixed_pilot_harness/config.py",
+      "src/mixed_pilot_harness/providers.py",
+      "src/mixed_pilot_harness/runner.py",
+      "src/mixed_pilot_harness/tools.py",
+      "src/mixed_pilot_harness/types.py",
+      "tasks/browsecomp-0001/manifest.json",
+      "tasks/gaia-paper-enrollment/manifest.json",
+      "tasks/jobbench-bookkeeping-task1/manifest.json",
+      "tasks/mind2web-yahoo-nfl-results/manifest.json",
+      "tasks/swebench-flask-5014/manifest.json",
+      "tasks/webarena-verified-0000/manifest.json",
+      "tests/test_harness.py"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "browsecomp-0001",
+      "category": "chat_web_research",
+      "methods": [
+        "answer_judge"
+      ]
+    },
+    {
+      "id": "gaia-paper-enrollment",
+      "category": "chat_web_research",
+      "methods": [
+        "exact_match"
+      ]
+    },
+    {
+      "id": "jobbench-bookkeeping-task1",
+      "category": "office_spreadsheet_document",
+      "methods": [
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric",
+        "artifact_rubric"
+      ]
+    },
+    {
+      "id": "mind2web-yahoo-nfl-results",
+      "category": "browser_offline_html",
+      "methods": [
+        "trajectory_match",
+        "trajectory_match"
+      ]
+    },
+    {
+      "id": "swebench-flask-5014",
+      "category": "coding",
+      "methods": [
+        "native_test",
+        "native_test",
+        "manual_diff_review"
+      ]
+    },
+    {
+      "id": "webarena-verified-0000",
+      "category": "browser_live_site",
+      "methods": [
+        "agent_response_evaluator"
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "run": "20260910T051822Z-swebench-flask-5014-ce817ce6",
+      "steps": 26,
+      "usage": {
+        "input_tokens": 34280,
+        "output_tokens": 4856
+      },
+      "evaluation": "passed",
+      "native_checks": {
+        "FAIL_TO_PASS": {
+          "status": "passed",
+          "test_count": 1
+        },
+        "PASS_TO_PASS": {
+          "status": "passed",
+          "test_count": 59
+        }
+      },
+      "rubric_score": 98.0,
+      "models": {
+        "claude-sonnet-4-6": 26
+      },
+      "tiers": {
+        "c0": 23,
+        "c1": 3
+      }
+    },
+    {
+      "run": "20260910T075420Z-swebench-flask-5014-635f3783",
+      "steps": 7,
+      "usage": {
+        "input_tokens": 200395,
+        "output_tokens": 1521
+      },
+      "evaluation": "passed",
+      "native_checks": {
+        "FAIL_TO_PASS": {
+          "status": "passed",
+          "test_count": 1
+        },
+        "PASS_TO_PASS": {
+          "status": "passed",
+          "test_count": 59
+        }
+      },
+      "rubric_score": 100.0,
+      "models": {
+        "gpt-5.6": 7
+      },
+      "tiers": {}
+    }
+  ]
+}

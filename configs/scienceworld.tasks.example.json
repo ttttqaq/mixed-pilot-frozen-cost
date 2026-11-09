@@ -1,0 +1,7 @@
+{
+  "note": "Only for offline dry-run. Generate and freeze real official-split task lists with --list-tasks before collection. Variation 0 below has deliberately unverified split=all.",
+  "tasks": [
+    {"task_id": "boil-var0", "benchmark": "scienceworld", "task_name": "boil", "variation_idx": 0, "simplification_str": "", "split": "all"},
+    {"task_id": "melt-var0", "benchmark": "scienceworld", "task_name": "melt", "variation_idx": 0, "simplification_str": "", "split": "all"}
+  ]
+}

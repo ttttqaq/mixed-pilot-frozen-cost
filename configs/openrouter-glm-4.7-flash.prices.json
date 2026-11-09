@@ -1,0 +1,13 @@
+{
+  "currency": "USD",
+  "as_of": "2026-10-08",
+  "basis": "Conservative token estimate using the highest listed input price among current OpenRouter GLM-4.7-Flash endpoints. Actual routed endpoint rates and cache discounts vary; consult OpenRouter usage for billed cost. Recheck if endpoint prices change. Not an exact invoice.",
+  "sources": ["https://openrouter.ai/api/v1/models/z-ai/glm-4.7-flash/endpoints"],
+  "profiles": {
+    "glm-4.7-flash": {
+      "schedule": "fixed",
+      "input_per_million": 0.07,
+      "output_per_million": 0.4
+    }
+  }
+}

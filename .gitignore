@@ -1,0 +1,29 @@
+# Task payloads live outside the source repository. Do not recreate a tasks
+# symlink here: editors may follow it and auto-discover benchmark Git repos.
+/tasks
+/run
+/run_0929
+/run_0930
+/run_1002
+/run_1010
+/run_1017
+/outputs
+/figure
+
+# Python bytecode caches, at any depth.
+__pycache__/
+*.pyc
+
+# Local agent/editor state, not part of the harness.
+.claude/
+
+# Locally maintained harness notes.
+/docs/HARNESS.md
+
+/ksr-random-5yuan
+
+/__MACOSX
+
+/data
+
+/Downloads

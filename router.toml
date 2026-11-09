@@ -1,0 +1,43 @@
+# Step-level Squilla Router configuration.
+#
+# Tier targets may reference profiles from harness.json and optionally override
+# any ProviderProfile field (for example model, base_url, or api_key_env).
+# Credentials remain environment-variable references; literal API keys are not
+# stored in this file.
+
+[router]
+engine = "opensquilla_v4"
+bundle_dir = "/Users/liangjianfeng/Acadamic/open-squilla/src/opensquilla/squilla_router/models/v4.2_phase3_inference"
+require_runtime = true
+fallback_tier = "c2"
+# Omit use_aux_head to inherit router.runtime.yaml exactly.
+
+[decision]
+# legacy: use OpenSquilla's complete turn-level post-processing
+# raw: use the fused R0-R3 probability argmax without heuristics
+# api_step: use raw argmax plus only the enabled step-safe rules below
+mode = "api_step"
+high_risk_floor = true
+
+[input]
+max_history_messages = 4
+max_message_chars = 6000
+max_flags_chars = 12000
+
+[route_classes]
+R0 = "c0"
+R1 = "c1"
+R2 = "c2"
+R3 = "c3"
+
+[tiers.c0]
+profile = "claude-sonnet-4-6"
+
+[tiers.c1]
+profile = "claude-sonnet-4-6"
+
+[tiers.c2]
+profile = "claude-opus-4-8"
+
+[tiers.c3]
+profile = "gpt-5.6"

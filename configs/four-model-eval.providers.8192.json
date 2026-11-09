@@ -1,0 +1,58 @@
+{
+  "default_profile": "deepseek-flash",
+  "profiles": {
+    "deepseek-flash": {
+      "kind": "openai",
+      "model": "deepseek-flash",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "max_tokens": 8192,
+      "timeout": 360,
+      "extra_body": {
+        "thinking": {
+          "type": "enabled"
+        }
+      }
+    },
+    "glm-5": {
+      "kind": "openai",
+      "model": "glm-5",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "max_tokens": 8192,
+      "timeout": 360,
+      "extra_body": {
+        "thinking": {
+          "type": "enabled"
+        }
+      }
+    },
+    "glm-4.7-flash": {
+      "kind": "openai",
+      "model": "glm-4.7-flash",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "max_tokens": 8192,
+      "timeout": 360,
+      "extra_body": {
+        "thinking": {
+          "type": "enabled"
+        }
+      }
+    },
+    "glm-5.3": {
+      "kind": "openai",
+      "model": "glm-5.3",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "max_tokens": 8192,
+      "timeout": 360,
+      "extra_body": {
+        "thinking": {
+          "type": "enabled"
+        },
+        "reasoning_effort": "max"
+      }
+    }
+  }
+}

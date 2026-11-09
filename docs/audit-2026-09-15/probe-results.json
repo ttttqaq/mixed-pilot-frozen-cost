@@ -1,0 +1,82 @@
+{
+  "shell_parent_read": {
+    "ok": true,
+    "returncode": 0,
+    "stdout": "SYNTHETIC_GRADER_MARKER",
+    "stderr": ""
+  },
+  "search_symlink_read": "linked.txt:1:SYNTHETIC_GRADER_MARKER",
+  "shell_timeout": {
+    "requested_seconds": 0.05,
+    "elapsed_seconds": 0.815,
+    "result": {
+      "ok": false,
+      "error": "command timed out",
+      "timeout": 0.05
+    }
+  },
+  "length_stop_returned_as_completed": {
+    "turn_id": "b976a2eb5cf045e88a84ab5fb531d5f3",
+    "text": "unfinished",
+    "steps": 1,
+    "provider_calls": 1,
+    "tool_calls": 0,
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "cache_usage_after_adapter": {
+    "input_tokens": 10,
+    "output_tokens": 5
+  },
+  "missing_native_group": {
+    "id": "native",
+    "method": "native_test",
+    "score": 70,
+    "max_score": 70.0,
+    "reason": "FAIL_TO_PASS unavailable; fell back to broad evaluator status=passed",
+    "evidence": []
+  },
+  "nan_judge": [
+    {
+      "id": "x",
+      "method": "exact_match",
+      "score": 100.0,
+      "max_score": 100.0,
+      "reason": "",
+      "evidence": []
+    }
+  ],
+  "mutable_head_evaluation": {
+    "frozen_base": "16980a8f1d76a8e6d4f06d9c97359110750de8bb",
+    "agent_head": "bc9cb5d454f64d69ec1427b3323a0485a541e6ee",
+    "exported_patch_bytes": 0,
+    "evaluation_status": "passed",
+    "evaluator_checks": "from app import value, fixed\nassert value == 9\n",
+    "app": "value = 9\nfixed = 1\n",
+    "frozen_regression_expected": "assert value == 0"
+  },
+  "step_limit_failure": {
+    "turn": {
+      "status": "error",
+      "steps": 1,
+      "provider_calls": 1,
+      "tool_calls": 1
+    },
+    "evaluation": {
+      "status": "not_run"
+    },
+    "patch": "",
+    "saved_output_files": []
+  },
+  "timeout_resolution": {
+    "outer_router_timeout": 360.0,
+    "actual_tier_timeouts": {
+      "c0": 120.0,
+      "c1": 120.0,
+      "c2": 120.0,
+      "c3": 120.0
+    }
+  }
+}

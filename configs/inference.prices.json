@@ -1,0 +1,107 @@
+{
+  "currency": "CNY",
+  "as_of": "2026-09-28",
+  "basis": "Frozen estimates copied from existing project price tables; edit rates for selected harness profiles. Actual account invoices may differ.",
+  "sources": [
+    "https://help.aliyun.com/zh/model-studio/qwen3-8b",
+    "https://help.aliyun.com/zh/model-studio/qwen-flash",
+    "https://help.aliyun.com/zh/model-studio/qwen3-6-35b-a3b",
+    "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "https://bigmodel.cn/pricing",
+    "https://docs.bigmodel.cn/cn/guide/start/pricing",
+    "https://help.aliyun.com/zh/model-studio/qwen3-8-flash"
+  ],
+  "profiles": {
+    "qwen3.6-35b-a3b": {
+      "as_of": "2026-10-10",
+      "schedule": "fixed",
+      "input_per_million": 1.8,
+      "output_per_million": 10.8,
+      "region": "cn-beijing",
+      "basis": "Alibaba Cloud Bailian official list prices; no context caching support; excludes promotional discounts.",
+      "source": "https://help.aliyun.com/zh/model-studio/qwen3-6-35b-a3b"
+    },
+    "qwen3-8b": {
+      "as_of": "2026-10-05",
+      "schedule": "fixed",
+      "input_per_million": 0.5,
+      "output_per_million": 2.0
+    },
+    "deepseek-flash": {
+      "schedule": "deepseek_cn_peak",
+      "input_per_million": 2.0,
+      "cached_input_per_million": 0.04,
+      "output_per_million": 8.0
+    },
+    "glm-5": {
+      "as_of": "2026-09-18",
+      "schedule": "fixed",
+      "bands": [
+        {
+          "max_input_tokens": 31999,
+          "input_per_million": 4.0,
+          "cached_input_per_million": 1.0,
+          "output_per_million": 18.0
+        },
+        {
+          "max_input_tokens": 200000,
+          "input_per_million": 6.0,
+          "cached_input_per_million": 1.5,
+          "output_per_million": 22.0
+        }
+      ]
+    },
+    "glm-4.7-flash": {
+      "schedule": "fixed",
+      "input_per_million": 0,
+      "output_per_million": 0,
+      "cached_input_per_million": 0
+    },
+    "glm-5.3": {
+      "schedule": "fixed",
+      "input_per_million": 8,
+      "output_per_million": 28,
+      "cached_input_per_million": 2
+    },
+    "qwen-flash-2025-07-28": {
+      "schedule": "fixed",
+      "bands": [
+        {
+          "max_input_tokens": 128000,
+          "input_per_million": 0.15,
+          "output_per_million": 1.5
+        },
+        {
+          "max_input_tokens": 256000,
+          "input_per_million": 0.6,
+          "output_per_million": 6
+        },
+        {
+          "max_input_tokens": 1000000,
+          "input_per_million": 1.2,
+          "output_per_million": 12
+        }
+      ],
+      "as_of": "2026-09-16"
+    },
+    "glm-4.7-flashx": {
+      "as_of": "2026-10-13",
+      "schedule": "fixed",
+      "input_per_million": 0.5,
+      "cached_input_per_million": 0.1,
+      "output_per_million": 3.0,
+      "source": "https://docs.bigmodel.cn/cn/guide/start/pricing",
+      "basis": "BigModel domestic standard API prices in CNY; cache storage currently limited-time free."
+    },
+    "qwen3.8-flash": {
+      "as_of": "2026-10-16",
+      "schedule": "fixed",
+      "input_per_million": 0.8,
+      "cached_input_per_million": 0.1,
+      "output_per_million": 2.7,
+      "region": "cn-beijing",
+      "source": "https://help.aliyun.com/zh/model-studio/qwen3-8-flash",
+      "basis": "Alibaba Cloud Bailian official standard API list prices in CNY, including implicit cache hits; excludes promotional and Batch discounts and explicit cache creation/storage fees."
+    }
+  }
+}

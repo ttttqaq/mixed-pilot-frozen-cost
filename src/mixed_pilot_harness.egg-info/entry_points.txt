@@ -1,0 +1,3 @@
+[console_scripts]
+mixed-pilot = mixed_pilot_harness.cli:main
+mixed-pilot-collect = mixed_pilot_harness.collection.cli:main

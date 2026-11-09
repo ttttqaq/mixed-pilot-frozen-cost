@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/ZhangYiqun018/MTRouter",
+  "revision": "ee9e4573a128c3e54aa8c83800318bfb783c4dfe",
+  "license": "MIT",
+  "files": [
+    {
+      "file": "scienceworld_tasks.py",
+      "upstream_path": "src/miniagenticrouter/data/scienceworld_tasks.py",
+      "upstream_sha256": "1c05a68534f08debf229bde9a56215d15014cea3b0756bd97cc6c47c3e417e60"
+    },
+    {
+      "file": "hle_tasks.py",
+      "upstream_path": "src/miniagenticrouter/data/hle_tasks.py",
+      "upstream_sha256": "1e2857087738d8097d31b8e916f4a6785745b1cb92dd9f6472d71a306a45f959"
+    },
+    {
+      "file": "scienceworld.py",
+      "upstream_path": "src/miniagenticrouter/environments/extra/scienceworld.py",
+      "upstream_sha256": "0ef2e974d176d1fe26c2ea35ada7206dcd5dae39cc43c5be212ababfd88d2506"
+    },
+    {
+      "file": "regex.py",
+      "upstream_path": "src/miniagenticrouter/parsers/regex.py",
+      "upstream_sha256": "be138a66defd2f009c8d48165d876a7c26069dffe4a52ca637304863fbfe6e43"
+    },
+    {
+      "file": "scienceworld.yaml",
+      "upstream_path": "src/miniagenticrouter/config/extra/scienceworld.yaml",
+      "upstream_sha256": "e51d97952063370eef2e4df43ea3d6df230d866548e48f73576234c4d435072f"
+    },
+    {
+      "file": "LICENSE.md",
+      "upstream_path": "LICENSE.md",
+      "upstream_sha256": "0f796e58f91d1c07bb2c1b1d0f8bf3a83017c3a5dec1bdc6fae733b2cd2e875b"
+    }
+  ],
+  "adaptations": [
+    "scienceworld_tasks.py: optional official split filter",
+    "scienceworld.py: avoid duplicate initial load and reset cached score"
+  ],
+  "collection_references": [
+    "src/miniagenticrouter/research/collection/modes.py",
+    "src/miniagenticrouter/research/collection/propensity_router.py",
+    "src/miniagenticrouter/research/collection/collector.py",
+    "src/miniagenticrouter/agents/flexible.py"
+  ]
+}

@@ -1,0 +1,152 @@
+# Online policy iteration on DB94. Relative paths are based on project_root.
+# Training reads train.json; periodic evaluation reads valid.json. Test is excluded.
+project_root: /DB/data/yujietang/Agent/code/mixed-pilot
+harness_config: harness.json
+pricing: configs/inference.prices.json
+output_dir: outputs/online-router
+seed: 42
+
+# Fill these parameters once; no terminal export is required.
+# Runtime consumes this section without saving it to run artifacts/checkpoints.
+api_keys:
+  dashscope: ""  # Qwen
+  zhipu: ""     # GLM and its teacher evidence calls
+
+dataset:
+  root: data/VirtualWorld-subset
+  train_split: train
+  validation_split: valid
+
+model_pool:
+  - qwen-flash-2025-07-28
+  - glm-5.3
+strong_model: glm-5.3
+
+budget:
+  # Frozen pricing-file currency (currently CNY), all paid scopes included.
+  # Stop before the next request at the threshold; one in-flight call may overshoot.
+  total: 30.0
+  # Q = expected terminal reward - lambda_ * expected remaining cost / cost_reference.
+  cost_reference: 0.1
+  lambda_: 0.05
+
+encoder:
+  backend: hf
+  model_name: /DB/data/yujietang/huggingface_models/Qwen3-Embedding-0.6B
+  max_tokens: 8192
+  device: auto
+  # Used only by explicit backend=hash, a deterministic offline smoke-test encoder.
+  hash_dim: 32
+
+model:
+  model_metadata: MTRouter/configs/models.ksr-db94.yaml
+  hidden_dims: [256, 256]
+  dropout: 0.1
+  ensemble_size: 3
+
+rollout:
+  task_budget: 1.0
+  step_limit: 50
+  replay_attempts: 2
+  retry_wait: 0.0
+  trace_delay: 0.0
+  # success predicts native success probability; normalized_score is an ablation.
+  reward: success
+
+cold_start:
+  enabled: true
+  tasks: 4
+  strategy: single_models
+  anchor_states_per_trace: 4
+  queries: 4
+
+online:
+  iterations: 3
+  tasks_per_iteration: 4
+  states_per_iteration: 4
+  exploration_epsilon: 0.1
+
+selection:
+  # enabled=false uses random visited-state queries at the same query count.
+  enabled: true
+  random_fraction: 0.25
+  impact_weight: 1.0
+  uncertainty_weight: 1.0
+  cost_weight: 1.0
+
+short_rollout:
+  # enabled=false runs A/B continuations to real terminal outcomes.
+  enabled: true
+  horizon: 3
+  adaptive: true
+  max_horizon: 9
+  extension: 3
+
+teacher:
+  enabled: true
+  ensemble_size: 3
+  hidden_dims: [128, 128]
+  dropout: 0.1
+  epochs: 10
+  learning_rate: 0.001
+  min_real_samples: 16
+  # Hide auxiliary evidence for this fraction of critic training rows so no-LLM tails are supported.
+  evidence_dropout: 0.25
+  # Only 1 is supported: real teacher labels must match this policy version.
+  real_replay_iterations: 1
+  llm:
+    # Auxiliary evidence only. The value teacher is fitted against native terminal labels.
+    # Disable this flag for the no-LLM-evidence ablation.
+    enabled: true
+    profile: glm-5.3
+    max_calls_per_iteration: 16
+    # At most this fraction of assessor requests may be spent on real-return anchors;
+    # the remaining quota is reserved for paired short-rollout endpoint evidence.
+    anchor_fraction: 0.5
+    # Allow the strong model's reasoning plus final JSON; do not disable thinking.
+    max_tokens: 8192
+    reasoning_effort: low
+    json_mode: true
+    max_history_chars: 16000
+    # null inherits the strong profile's vendor-specific sampling settings.
+    temperature: null
+    confidence_floor: 0.0
+
+audit:
+  enabled: true
+  uncertainty_threshold: 0.1
+  random_fraction: 0.2
+  max_pairs_per_iteration: 2
+
+optimization:
+  epochs: 10
+  batch_size: 64
+  learning_rate: 0.001
+  weight_decay: 0.01
+  grad_clip: 1.0
+  anchor_weight: 0.1
+  pairwise_weight: 0.2
+  cost_loss_weight: 1.0
+  replay_limit: 50000
+  pseudo_weight: 0.25
+
+evaluation:
+  enabled: true
+  every_iterations: 3
+  # null evaluates all 50 valid tasks; use an integer only for an explicit smoke subset.
+  max_tasks: null
+
+checkpoint:
+  every_iterations: 1
+
+resilience:
+  enabled: true
+  stop_after_retries: true
+  max_retries: 3
+  retry_delay: 5.0
+  max_retry_delay: 60.0
+  request_timeout: 300.0
+  teacher_timeout: 600.0
+  rate_limit_wait: 30.0
+  rate_limit_retries: 5
+  qwen_min_interval: 2.0

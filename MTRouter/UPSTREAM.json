@@ -1,0 +1,112 @@
+{
+  "repository": "https://github.com/ZhangYiqun018/MTRouter",
+  "local_source": "/Users/liangjianfeng/Acadamic/MTRouter-main",
+  "files": [
+    {
+      "source": "src/miniagenticrouter/research/trajectory/parser.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/trajectory/parser.py",
+      "source_sha256": "078a28a5ca5d0b3fbb1e9da1b3243881d661882764c57b1238f50425f9a40f36",
+      "ported_sha256": "b0d5f41b81fd2cfe395ca1fa4a6f098928bfa2de1abf2f99a1ba2db0efacc400"
+    },
+    {
+      "source": "src/miniagenticrouter/research/trajectory/__init__.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/trajectory/__init__.py",
+      "source_sha256": "8ec1bcc2c51d8b35f54b43a9b003bbbff135b59cf6d7e7b2b612332732899882",
+      "ported_sha256": "a3d9f915ee6018ce73dc6f9bc5c2c072d4dab0e8a191c8406cfa0df2d966c5c1"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/__init__.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/__init__.py",
+      "source_sha256": "062b4bb2d8a2c68a04c8d3d2d7f41fdc06b57ed37967746a4791b83e016a1f20",
+      "ported_sha256": "062b4bb2d8a2c68a04c8d3d2d7f41fdc06b57ed37967746a4791b83e016a1f20"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/dataset.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/dataset.py",
+      "source_sha256": "d0ecd30318a6c296e0292bb291776fdbda499e1b8dc7dce0f23c7b26803f00ca",
+      "ported_sha256": "46b070be799aa8645f4e454089172a0ea89fa3b6f69cf1e2eeced072a628987a"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/encoders.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/encoders.py",
+      "source_sha256": "b2441fcbf7d71d2aa9a30e417793fc43e3bb40442673de23625cb452fcd18601",
+      "ported_sha256": "bbbb47517f9bd92011be3630e7cb7dd70b15bec0c4f1dcb743b553480feab84b"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/model_encoder.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/model_encoder.py",
+      "source_sha256": "0f109c56dc61d1795f13df452dc46dc4c788573f1b9c2bd3861c264b2c0227f5",
+      "ported_sha256": "0f109c56dc61d1795f13df452dc46dc4c788573f1b9c2bd3861c264b2c0227f5"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/q_network.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/q_network.py",
+      "source_sha256": "9d6df9e27e2bbc0f8152048b17436d01f3f05de242940a87d332b866962bc6ad",
+      "ported_sha256": "c1e4c3357ea071e0703d0fac07dfd8821a8c5628dbf97b3994db3e9729052d15"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/error_detector.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/error_detector.py",
+      "source_sha256": "b424dce3f6ea8f1e74a91e65e805dac174797fb0e7cc40578e8d0ed458f1f88d",
+      "ported_sha256": "c04e33216c9fb85b226666b4fd84ea5d119736bf3900db63a48fd8e4e423de02"
+    },
+    {
+      "source": "src/miniagenticrouter/research/training/vllm_client.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/training/vllm_client.py",
+      "source_sha256": "38d3b980b72690f946d60d040e98d52f5188ae2921b1f70aeed41d49ad6c1f8e",
+      "ported_sha256": "38d3b980b72690f946d60d040e98d52f5188ae2921b1f70aeed41d49ad6c1f8e"
+    },
+    {
+      "source": "src/miniagenticrouter/research/utils/config.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/utils/config.py",
+      "source_sha256": "6697510b133d8637e5f9db143352bc857571b87101fff34cbca84279c598648a",
+      "ported_sha256": "6697510b133d8637e5f9db143352bc857571b87101fff34cbca84279c598648a"
+    },
+    {
+      "source": "src/miniagenticrouter/research/utils/__init__.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/utils/__init__.py",
+      "source_sha256": "b041a171f5fe39c69bae3fac3b21fa818b41650db0b0631b5990b3b387d447af",
+      "ported_sha256": "bc284a4ca761a2d36702999091a7f887c4bcbb56e6033b208d6a64e978f19c31"
+    },
+    {
+      "source": "src/miniagenticrouter/config/research/error_rules.yaml",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/config/research/error_rules.yaml",
+      "source_sha256": "35536d70039a37917a9f3bea7a9059e5bbeb60e5078ed08518055838151d3191",
+      "ported_sha256": "35536d70039a37917a9f3bea7a9059e5bbeb60e5078ed08518055838151d3191"
+    },
+    {
+      "source": "src/miniagenticrouter/config/research/training.yaml",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/config/research/training.yaml",
+      "source_sha256": "e27e3f0318f60cd106556efb4bb0f8e32a49c32ccb446e65ceb51c5f5e1df399",
+      "ported_sha256": "752d1f561105934c3dcf98f0b5f7bd126170e349b5cae205e23c250047e7c021"
+    },
+    {
+      "source": "src/miniagenticrouter/config/models/custom_models.yaml",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/config/models/custom_models.yaml",
+      "source_sha256": "ee0980664cf92bded269f6abe39925a18d8710cdf6fed2bacde8405fb50fba41",
+      "ported_sha256": "e20f56b5d3f7eadcb970c90b046e39720d41fffb71604ab4e03472d32f2a43e7"
+    },
+    {
+      "source": "scripts/train_q_function.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/cli/train_q_function.py",
+      "source_sha256": "85e5e8af3764539a84713baf71d67190f771b4e556735d203cf95219ab496ee8",
+      "ported_sha256": "b82a8c52d68b7d15532759ac771111981bac89e29bda9b3e81f7d9e3a1d02d9f"
+    },
+    {
+      "source": "scripts/precompute_embeddings.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/cli/precompute_embeddings.py",
+      "source_sha256": "08f058b312cacc8430560873e60e04ce945f4554397632fe8872e5550ebd7995",
+      "ported_sha256": "d2c60e7226404dd48362f642162ada29c337b15c0a955c88585ef4748a043b3f"
+    },
+    {
+      "source": "src/miniagenticrouter/research/routers/learned.py",
+      "destination": "MTRouter/src/mixed_pilot_mtrouter/research/routers/learned.py",
+      "source_sha256": "22b830b1cebe80890aa6eeae8626df7b1a6cb99b1d6dbb00f6472b40dddca155",
+      "extracted": [
+        "validate_model_names",
+        "QFunction"
+      ],
+      "ported_sha256": "706173fdffe339c45e6c5fe00caf86ee93f6c38033e31a59eae37853b433e7c9"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "default_profile": "qwen-flash-2025-07-28",
+  "profiles": {
+    "qwen-flash-2025-07-28": {
+      "kind": "openai", "model": "qwen-flash-2025-07-28",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY", "max_tokens": 1024, "timeout": 120,
+      "extra_body": {"enable_thinking": false}
+    },
+    "deepseek-flash": {
+      "kind": "openai", "model": "deepseek-flash", "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY", "max_tokens": 1024, "timeout": 120,
+      "extra_body": {"thinking": {"type": "disabled"}}
+    },
+    "glm-5": {
+      "kind": "openai", "model": "glm-5", "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY", "max_tokens": 1024, "timeout": 120,
+      "extra_body": {"thinking": {"type": "disabled"}}
+    }
+  }
+}

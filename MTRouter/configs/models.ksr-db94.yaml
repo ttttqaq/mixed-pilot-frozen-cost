@@ -1,0 +1,18 @@
+# Frozen experiment features from data/step-KSR-brunch-1/plan.json.
+# Token limits describe the collection profiles, not verified vendor maxima.
+# Prices are CNY / million tokens: uncached base band, not live prices.
+# knowledge_cutoff is the same neutral placeholder used by the original config.
+# Recorded labels/costs remain untouched; actual costs may include cache/band rates.
+models:
+  qwen-flash-2025-07-28:
+    max_input_tokens: 1000000
+    max_output_tokens: 8192
+    knowledge_cutoff: "2024-01-01"
+    input_cost_per_million: 0.15
+    output_cost_per_million: 1.5
+  glm-5.3:
+    max_input_tokens: 1000000
+    max_output_tokens: 8192
+    knowledge_cutoff: "2024-01-01"
+    input_cost_per_million: 8.0
+    output_cost_per_million: 28.0

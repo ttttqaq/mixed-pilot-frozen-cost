@@ -1,0 +1,207 @@
+{
+  "default_profile": "router",
+  "agent": {
+    "max_steps": 64,
+    "provider_timeout": 360,
+    "tool_timeout": 360
+  },
+  "profiles": {
+    "gpt-5.6": {
+      "kind": "openai",
+      "model": "gpt-5.5",
+      "base_url": "https://api.aicode.life/v1",
+      "api_key_env": "OPENAI_API_KEY",
+      "headers": {
+        "User-Agent": "mixed-pilot/0.1"
+      },
+      "extra_body": {
+        "reasoning_effort": "none"
+      },
+      "context_window": 1050000
+    },
+    "claude-opus-4-8": {
+      "kind": "anthropic",
+      "model": "claude-opus-4-8",
+      "base_url": "https://api.aicode.life/v1",
+      "api_key_env": "ANTHROPIC_AUTH_TOKEN",
+      "headers": {
+        "User-Agent": "mixed-pilot/0.1"
+      },
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 1000000
+    },
+    "claude-sonnet-4-6": {
+      "kind": "anthropic",
+      "model": "claude-sonnet-4-6",
+      "base_url": "https://api.aicode.life/v1",
+      "api_key_env": "ANTHROPIC_AUTH_TOKEN",
+      "headers": {
+        "User-Agent": "mixed-pilot/0.1"
+      },
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 1000000
+    },
+    "deepseek-flash": {
+      "kind": "openai",
+      "model": "deepseek-flash",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 1000000
+    },
+    "deepseek-v4-pro": {
+      "kind": "openai",
+      "model": "deepseek-v4-pro",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 1000000
+    },
+    "glm-5": {
+      "kind": "openai",
+      "model": "glm-5",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 200000
+    },
+    "glm-5.3": {
+      "kind": "openai",
+      "model": "glm-5.3",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "context_window": 1000000
+    },
+    "glm-4.7-flashx": {
+      "kind": "openai",
+      "model": "glm-4.7-flashx",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "max_tokens": 8192,
+      "context_window": 200000,
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      }
+    },
+    "glm-4.7-flash": {
+      "kind": "openai",
+      "model": "glm-4.7-flash",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPU_API_KEY",
+      "extra_body": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "context_window": 200000
+    },
+    "router": {
+      "kind": "router",
+      "model": "squilla-router-v4",
+      "router_config": "router.toml",
+      "api_key_optional": true
+    },
+    "random-router": {
+      "kind": "router",
+      "model": "random-router",
+      "router": {
+        "engine": "random",
+        "models": [
+          "qwen-flash-2025-07-28",
+          "glm-5.3"
+        ],
+        "possibility": {
+          "qwen-flash-2025-07-28": 5,
+          "glm-5.3": 5
+        },
+        "seed": 42
+      }
+    },
+    "mtrouter": {
+      "kind": "router",
+      "model": "mtrouter",
+      "router": {
+        "engine": "mtrouter",
+        "models": [
+          "qwen-flash-2025-07-28",
+          "glm-5.3"
+        ],
+        "service_url": "http://127.0.0.1:8765",
+        "service_timeout": 120
+      }
+    },
+    "qwen-flash-2025-07-28": {
+      "kind": "openai",
+      "model": "qwen-flash-2025-07-28",
+      "base_url": "https://ws-6n8uu6ay21zyscj0.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "extra_body": {
+        "enable_thinking": false
+      },
+      "context_window": 1000000
+    },
+    "qwen3.6-35b-a3b": {
+      "kind": "openai",
+      "base_url": "https://ws-6n8uu6ay21zyscj0.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "model": "qwen3.6-35b-a3b",
+      "extra_body": {
+        "enable_thinking": false
+      },
+      "context_window": 262144
+    },
+    "qwen3-8b": {
+      "kind": "openai",
+      "base_url": "https://ws-6n8uu6ay21zyscj0.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "model": "qwen3-8b",
+      "extra_body": {
+        "enable_thinking": false
+      },
+      "context_window": 131072,
+      "max_input_tokens": 98304
+    },
+    "qwen3.8-flash": {
+      "kind": "openai",
+      "model": "qwen3.8-flash",
+      "base_url": "https://ws-6n8uu6ay21zyscj0.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "extra_body": {
+        "enable_thinking": false
+      },
+      "context_window": 1000000,
+      "max_input_tokens": 991808
+    }
+  },
+  "tasks": {
+    "swebench-flask-5014": {
+      "eval_setup_command": "{ \"${MIXED_PILOT_EVAL_PYTHON:-python3}\" -m venv .mixed-pilot-eval-venv || { rm -rf .mixed-pilot-eval-venv && \"${MIXED_PILOT_EVAL_PYTHON:-python3}\" -m venv --without-pip .mixed-pilot-eval-venv && \"${MIXED_PILOT_EVAL_PYTHON:-python3}\" -m pip --python .mixed-pilot-eval-venv/bin/python install --disable-pip-version-check pip setuptools wheel; }; } && .mixed-pilot-eval-venv/bin/python -m pip install --disable-pip-version-check -r requirements/tests.txt Werkzeug==2.2.3 .",
+      "eval_command": ".mixed-pilot-eval-venv/bin/python -m pytest -q tests/test_blueprints.py",
+      "eval_test_command": ".mixed-pilot-eval-venv/bin/python -m pytest -q {tests}",
+      "test_patch": "tasks/swebench-flask-5014/reference/test.patch",
+      "eval_timeout": 600
+    }
+  }
+}

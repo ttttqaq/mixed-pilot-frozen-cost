@@ -1,0 +1,14 @@
+{
+  "currency": "USD",
+  "as_of": "2026-10-13",
+  "basis": "Z.ai official standard API token prices. Cached input storage is currently limited-time free; excludes separately billed tools. Not an account invoice.",
+  "sources": ["https://docs.z.ai/guides/overview/pricing"],
+  "profiles": {
+    "glm-4.7-flashx": {
+      "schedule": "fixed",
+      "input_per_million": 0.07,
+      "cached_input_per_million": 0.01,
+      "output_per_million": 0.4
+    }
+  }
+}
